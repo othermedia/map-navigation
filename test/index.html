@@ -56,6 +56,14 @@
     require('MapNavigation', function() {
         
         var mapNav = MapNavigation.fromHTML('#the-list');
+        
+        mapNav.on('pagerequest', function(map, url) {
+           map.getDisplay().setStyle({opacity: 0});
+        });
+        
+        mapNav.on('pageload', function(map, url) {
+           map.getDisplay().animate({opacity: {to: 1}}, 0.4);
+        });
     });
     </script>
     
