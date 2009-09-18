@@ -12,6 +12,14 @@ if (window.GMap2) JS.MethodChain.addMethods(GMap2);
  * the list by loading the links' targets into the page using Ajax.
  *
  *
+ * DEPENDENCIES
+ *
+ *      * Ojay, version 0.2.0 or greater
+ *          - JS.Class, JS.Observable, JS.State
+ *          - Ojay core, Ojay.HTTP
+ *      * Google Maps API must be loaded before this script
+ *
+ *
  * HTML DOCUMENT STRUCTURE
  *
  * In terms of markup, all you need is an element containing some links, and each link should
@@ -297,9 +305,17 @@ var MapNavigation = new JS.Class({
         this._locations.push(location);
         
         GEvent.addListener(location.getMarker(), 'click', function() {
-            var map = this.getMap();
-            if (!map) return;
-            map.changeState({url: this.getURL()});
+            // var map = this.getMap();
+            // if (!map) return;
+            // map.changeState({url: this.getURL()});
+            if (this._bubbleText)
+                return this.getMarker().openInfoWindow(this._bubbleText);
+            Ojay.HTTP.GET(this.getURL(), {}, {
+                onSuccess: function(response) {
+                    this._bubbleText = response.responseText;
+                    this.getMarker().openInfoWindow(this._bubbleText);
+                }.bind(this)
+            });
         }.bind(location));
                 
         if (this._map) {
