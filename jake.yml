@@ -17,7 +17,21 @@ packages:
       - map-navigation
     meta:
       requires:
+        - JS.MethodChain
         - JS.Class
+        - JS.State
+        - JS.Singleton
+        - GMap2
+        - GClientGeocoder
+        - GEvent
+        - GLatLng
+        - GMarker
+      uses:
+        - YAHOO.lang.JSON
+        - Ojay
+        - Ojay.HTML
+        - Ojay.Observable
+        - Ojay.HTTP
       provides:
         - MapNavigation
 
