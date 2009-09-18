@@ -12,6 +12,14 @@ if (window.GMap2) JS.MethodChain.addMethods(GMap2);
  * the list by loading the links' targets into the page using Ajax.
  *
  *
+ * DEPENDENCIES
+ *
+ *      * Ojay, version 0.2.0 or greater
+ *          - JS.Class, JS.Observable, JS.State
+ *          - Ojay core, Ojay.HTTP
+ *      * Google Maps API must be loaded before this script
+ *
+ *
  * HTML DOCUMENT STRUCTURE
  *
  * In terms of markup, all you need is an element containing some links, and each link should
@@ -209,6 +217,13 @@ var MapNavigation = new JS.Class({
             marker = oldLoc.getMarker(), icon = marker.getIcon();
             marker.setImage(icon.image);
         });
+        
+        this._overlay = new Ojay.ContentOverlay({className: 'map-overlay'});
+        this._overlay.setLayer(1000000);
+        
+        var closeButton = Ojay( Ojay.HTML.div({className: 'close-button'}, 'Close') );
+        closeButton.on('click')._(this._overlay).hide('fade');
+        this._overlay.getContainer().insert(closeButton, 'top');
         
         this.on('adjustlocation').fitToMarkers();
     },
@@ -438,9 +453,10 @@ var MapNavigation = new JS.Class({
                 if (!url) return;
                 this.setState('REQUESTING');
                 this.notifyObservers('pagerequest', url);
-                Ojay.HTTP.GET(url, {}, {
+                Ojay.HTTP.GET(url, {map: true}, {
                     onSuccess: function(response) {
-                        response.insertInto(this._elements._display);
+                        response.insertInto(this._overlay);
+                        this.positionOverlay();
                         this.setState('READY');
                         this.notifyObservers('pageload', url);
                         this.notifyObservers('locationchange', oldLocation, location);
@@ -455,7 +471,17 @@ var MapNavigation = new JS.Class({
         /**
          * The map resides in the REQUESTING state during Ajax calls for location links
          */
-        REQUESTING: {}
+        REQUESTING: {
+            /**
+             * Sets the position of the map overlay
+             */
+            positionOverlay: function() {
+                var region = this._elements._map.getRegion();
+                this._overlay.fitToContent()
+                        .setPosition(region.left + 12, region.top + 12);
+                this._overlay.show('fade');
+            }
+        }
     },
     
     extend: {

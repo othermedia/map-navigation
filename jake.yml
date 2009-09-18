@@ -32,6 +32,7 @@ packages:
         - Ojay.HTML
         - Ojay.Observable
         - Ojay.HTTP
+        - Ojay.ContentOverlay
       provides:
         - MapNavigation
 
