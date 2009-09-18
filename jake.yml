@@ -26,11 +26,11 @@ packages:
         - GEvent
         - GLatLng
         - GMarker
+        - Ojay.Observable
       uses:
         - YAHOO.lang.JSON
         - Ojay
         - Ojay.HTML
-        - Ojay.Observable
         - Ojay.HTTP
         - Ojay.ContentOverlay
       provides:
