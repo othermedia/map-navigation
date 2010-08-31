@@ -1,67 +1,54 @@
-<!doctype html>
-<html>
-  <head>
+<!DOCTYPE html>
+<html><head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <title>MapNavigation Tests</title>
     
-    <script src="http://localhost:9292/js/helium.js" type="text/javascript"></script>
-    
-    <script type="text/javascript">
-    // http://localhost:8000
-    Helium.GOOGLE_KEY = 'ABQIAAAArVbgzt5nxAQAZ_iB_77caBQCULP4XOMyhPd8d_NrQQEO8sT8XBTzVWhRwEDkVfNsvzo8bf4ntGV4ZQ';
-    
-    // http://10.0.2.2:8000
-    // Helium.GOOGLE_KEY = 'ABQIAAAArVbgzt5nxAQAZ_iB_77caBR-5oywdloojr3wCGctvtY4YLrIFxTp2Uv8Tzdhpc707bQaOPGPEQ3PzA';
-    
-    Helium.use('yui', '2.7.0');
-    Helium.use('ojay', 'master');
-    </script>
-    
     <style type="text/css" media="screen">
-    .map-container { width: 600px; height: 400px; }
+        .map-container { width: 600px; height: 400px; }
     </style>
     
-    
-    <!-- Package file for map-navigation (run `jake` to generate this) -->
+    <script src="http://js.othermedia.com/helium.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        Helium.use('yui', '2.8.0r4');
+        Helium.use('ojay', '0.4.2');
+        
+        Helium.GOOGLE_API_KEY = 'ABQIAAAArVbgzt5nxAQAZ_iB_77caBQCULP4XOMyhPd8d_NrQQEO8sT8XBTzVWhRwEDkVfNsvzo8bf4ntGV4ZQ';
+    </script>
     <script src="./packages.js" type="text/javascript"></script>
-  </head>
-  <body>
-    
-    <ul id='the-list'>
-      <li>
-        <a href='/service/tom.html'>
-          the OTHER media
-          <span class='geodata'>{"lat": 51.498919, "lng": -0.080895}</span>
-        </a>
-      </li>
-      <li>
-        <a href='/service/rah.html'>
-          Royal Albert Hall
-          <span class='geodata'>{"address": "London SW7 2AP"}</span>
-        </a>
-      </li>
-      <li>
-        <a class='news' href='/service/mps.html'>
-          Parliament Sq.
-          <span class='geodata'>{"lat": 51.500514, "lng": -0.127497}</span>
-        </a>
-      </li>
+</head><body>
+    <ul id="the-list">
+        <li>
+            <a href="service/tom.html">
+                the OTHER media
+                <span class="geodata">{"lat": 51.498945, "lng": -0.080874}</span>
+            </a>
+        </li>
+        <li>
+            <a href="service/rah.html">
+                Royal Albert Hall
+                <span class="geodata">{"address": "London SW7 2AP"}</span>
+            </a>
+        </li>
+        <li>
+            <a class="news" href="service/mps.html">
+                Parliament Sq.
+                <span class="geodata">{"lat": 51.500514, "lng": -0.127497}</span>
+            </a>
+        </li>
     </ul>
     
     <script type="text/javascript">
-    require('MapNavigation', function() {
-        
-        var mapNav = MapNavigation.fromHTML('#the-list');
-        
-        mapNav.on('pagerequest', function(map, url) {
-           map.getDisplay().setStyle({opacity: 0});
+        require('MapNavigation', function() {
+            
+            var mapNav = MapNavigation.fromHTML('#the-list');
+            
+            mapNav.on('pagerequest', function(map, url) {
+               map.getDisplay().setStyle({opacity: 0});
+            });
+            
+            mapNav.on('pageload', function(map, url) {
+               map.getDisplay().animate({opacity: {to: 1}}, 0.4);
+            });
         });
-        
-        mapNav.on('pageload', function(map, url) {
-           map.getDisplay().animate({opacity: {to: 1}}, 0.4);
-        });
-    });
     </script>
-    
-  </body>
-</html>
+</body></html>
