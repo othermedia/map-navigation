@@ -1,0 +1,4 @@
+Version 1.0.0, 2009.09.24
+
+* Unobtrusively create a Google Maps interface from existing navigational
+  items in an HTML document.
