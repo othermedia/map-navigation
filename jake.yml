@@ -34,4 +34,3 @@ packages:
         - Ojay.HTTP
       provides:
         - MapNavigation
-
